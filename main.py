@@ -1,14 +1,10 @@
-import os
-
 import aiogram
-from dotenv import load_dotenv
 
+import config
 import database
 import nscm
 
-load_dotenv()
-
-bot = aiogram.Bot(token=os.getenv('TELEGRAM_API_KEY'))
+bot = aiogram.Bot(token=config.TELEGRAM_API_KEY)
 dp = aiogram.Dispatcher(bot)
 
 

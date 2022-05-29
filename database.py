@@ -5,8 +5,9 @@ from typing import NamedTuple
 
 import aiogram.types
 
+import config
+
 REGISTER_DATA_REGEXP = re.compile(r'^[А-аЯ-я]{3,15}\s[А-аЯ-я]{3,15}\s[А-аЯ-я]{3,15}\s\d{6}$')
-DB_FILENAME = 'NCMSTracker.sqlite3'
 
 
 class UserData(NamedTuple):
@@ -16,13 +17,13 @@ class UserData(NamedTuple):
     DocNumber: int
 
 
-if not os.path.exists(DB_FILENAME):
-    connection = sqlite3.connect(DB_FILENAME)
+if not os.path.exists(config.DB_FILENAME):
+    connection = sqlite3.connect(config.DB_FILENAME)
     CREATE_DB_SQL = open('sql/create_db.sql', 'r').read()
     connection.execute(CREATE_DB_SQL)
     connection.commit()
 else:
-    connection = sqlite3.connect(DB_FILENAME)
+    connection = sqlite3.connect(config.DB_FILENAME)
 
 
 def is_user_registered(message: aiogram.types.Message) -> bool:
