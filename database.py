@@ -1,3 +1,4 @@
+import os.path
 import re
 import sqlite3
 from typing import NamedTuple
@@ -10,7 +11,7 @@ GET_USER_DATA_TEMPLATE = 'SELECT Lastname,Name,SecondName,DocNumber FROM users W
 
 REGISTER_DATA_REGEXP = re.compile(r'^[А-аЯ-я]{3,15}\s[А-аЯ-я]{3,15}\s[А-аЯ-я]{3,15}\s\d{6}$')
 
-connection = sqlite3.connect('NCMSTracker.sqlite3')
+DB_FILENAME = 'NCMSTracker.sqlite3'
 
 
 class UserData(NamedTuple):
@@ -18,6 +19,15 @@ class UserData(NamedTuple):
     Name: str
     SecondName: str
     DocNumber: int
+
+
+if not os.path.exists(DB_FILENAME):
+    connection = sqlite3.connect(DB_FILENAME)
+    CREATE_DB_SQL = open('create_db.sql', 'r').read()
+    connection.execute(CREATE_DB_SQL)
+    connection.commit()
+else:
+    connection = sqlite3.connect(DB_FILENAME)
 
 
 def is_user_registered(message: aiogram.types.Message) -> bool:
