@@ -18,7 +18,8 @@ def get_results(user_data: UserData) -> str:
     for tr in tbody.find_all('tr'):
         tds = tr.find_all('td')
         exam_name = tds[0].get_text()
+        exam_points = tds[2].get_text()
         exam_mark = tds[3].get_text()
-        response += f'{exam_name}: {exam_mark}\n'
+        response += f'{exam_name}: {exam_mark} ({exam_points} баллов)\n'
 
     return response
