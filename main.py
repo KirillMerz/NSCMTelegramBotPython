@@ -25,7 +25,7 @@ async def check_results(message: aiogram.types.Message):
     await message.reply(response)
 
 
-REGISTER_DATA_REGEXP = re.compile(r'^[А-аЯ-я]{3,15}\s[А-аЯ-я]{3,15}\s[А-аЯ-я]{3,15}\s\d{6}$')
+REGISTER_DATA_REGEXP = re.compile(r'^[А-аЯ-я]{2,20}\s[А-аЯ-я]{2,20}\s[А-аЯ-я]{2,20}\s\d{6}$')
 
 
 @dp.message_handler(regexp=REGISTER_DATA_REGEXP)
