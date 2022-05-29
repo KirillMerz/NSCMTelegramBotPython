@@ -1,13 +1,10 @@
 import os.path
-import re
 import sqlite3
 from typing import NamedTuple
 
 import aiogram.types
 
 import config
-
-REGISTER_DATA_REGEXP = re.compile(r'^[А-аЯ-я]{3,15}\s[А-аЯ-я]{3,15}\s[А-аЯ-я]{3,15}\s\d{6}$')
 
 
 class UserData(NamedTuple):

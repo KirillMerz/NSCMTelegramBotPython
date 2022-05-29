@@ -1,3 +1,5 @@
+import re
+
 import aiogram
 
 import config
@@ -23,7 +25,10 @@ async def check_results(message: aiogram.types.Message):
     await message.reply(response)
 
 
-@dp.message_handler(regexp=database.REGISTER_DATA_REGEXP)
+REGISTER_DATA_REGEXP = re.compile(r'^[А-аЯ-я]{3,15}\s[А-аЯ-я]{3,15}\s[А-аЯ-я]{3,15}\s\d{6}$')
+
+
+@dp.message_handler(regexp=REGISTER_DATA_REGEXP)
 async def register(message: aiogram.types.Message):
     if message.chat.type != 'private':
         return
