@@ -1,6 +1,7 @@
 import re
 
 import aiogram
+from aiogram.dispatcher.filters import ChatTypeFilter
 
 import config
 import database
@@ -26,9 +27,10 @@ async def check_results(message: aiogram.types.Message):
 
 
 REGISTER_DATA_REGEXP = re.compile(r'^[А-аЯ-я]{2,20}\s[А-аЯ-я]{2,20}\s[А-аЯ-я]{2,20}\s\d{6}$')
+PRIVATE_CHAT_FILTER = ChatTypeFilter(chat_type=aiogram.types.ChatType.PRIVATE)
 
 
-@dp.message_handler(regexp=REGISTER_DATA_REGEXP)
+@dp.message_handler(regexp=REGISTER_DATA_REGEXP, custom_filters=PRIVATE_CHAT_FILTER)
 async def register(message: aiogram.types.Message):
     if database.is_user_registered(message):
         response = 'Ты уже зарегистрирован(а)'
