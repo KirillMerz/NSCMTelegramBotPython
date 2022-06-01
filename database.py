@@ -16,8 +16,7 @@ class UserData(NamedTuple):
 
 if not os.path.exists(config.DB_FILENAME):
     connection = sqlite3.connect(config.DB_FILENAME)
-    CREATE_DB_SQL = open('sql/create_db.sql', 'r').read()
-    connection.execute(CREATE_DB_SQL)
+    connection.execute(open('sql/create_db.sql').read())
     connection.commit()
 else:
     connection = sqlite3.connect(config.DB_FILENAME)
@@ -34,7 +33,7 @@ def is_user_registered(message: aiogram.types.Message) -> bool:
     return cur.fetchone() is not None
 
 
-def register_user(message: aiogram.types.Message) -> str:
+def register_user(message: aiogram.types.Message) -> None:
     register_query_template = open('sql/register_user_template.sql').read()
 
     connection.cursor().execute(register_query_template.format(
@@ -42,12 +41,12 @@ def register_user(message: aiogram.types.Message) -> str:
     ))
 
     connection.commit()
-    return 'готово'
 
 
 def get_user_data(user_id: int) -> UserData:
     get_user_data_template = open('sql/get_user_data_template.sql').read()
     cur = connection.cursor()
     cur.execute(get_user_data_template.format(user_id))
-    data = cur.fetchone()
-    return UserData(*data)
+    return UserData(
+        *cur.fetchone()
+    )

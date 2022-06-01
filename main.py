@@ -12,13 +12,13 @@ dp = aiogram.Dispatcher(bot)
 
 @dp.message_handler(commands=['start'])
 async def start(message: aiogram.types.Message):
-    await message.reply('теперь отправь мне свои данные в формате:\nФамилия Имя Отчество НомерПаспорта')
+    await message.reply('Для регистрации отправь мне свои данные в формате:\nИванов Иван Иванович 012345')
 
 
 @dp.message_handler(commands=['check'])
 async def check_results(message: aiogram.types.Message):
     if not database.is_user_registered(message):
-        response = 'для регистрации напиши мне в лс'
+        response = 'Для регистрации напиши мне в личку'
     else:
         user_data = database.get_user_data(message.from_user.id)
         response = nscm.get_results(user_data)
@@ -30,14 +30,11 @@ REGISTER_DATA_REGEXP = re.compile(r'^[А-аЯ-я]{2,20}\s[А-аЯ-я]{2,20}\s[А
 
 @dp.message_handler(regexp=REGISTER_DATA_REGEXP)
 async def register(message: aiogram.types.Message):
-    if message.chat.type != 'private':
-        return
-
     if database.is_user_registered(message):
-        response = 'ты уже есть в базе данных'
+        response = 'Ты уже зарегистрирован(а)'
     else:
-        response = database.register_user(message)
-
+        database.register_user(message)
+        response = 'Успешно'
     await message.reply(response)
 
 
