@@ -17,7 +17,7 @@ async def start(message: aiogram.types.Message):
 
 @dp.message_handler(commands=['check'])
 async def check_results(message: aiogram.types.Message):
-    if not database.is_user_registered(message):
+    if not database.is_user_registered(message.chat.id):
         response = 'Для регистрации напиши мне в личку'
     else:
         user_data = database.get_user_data(message.from_user.id)
@@ -30,7 +30,7 @@ REGISTER_DATA_REGEXP = re.compile(r'^[А-аЯ-я]{2,20}\s[А-аЯ-я]{2,20}\s[А
 
 @dp.message_handler(chat_type=aiogram.types.ChatType.PRIVATE, regexp=REGISTER_DATA_REGEXP)
 async def register(message: aiogram.types.Message):
-    if database.is_user_registered(message):
+    if database.is_user_registered(message.chat.id):
         response = 'Ты уже зарегистрирован(а)'
     else:
         database.register_user(message)
@@ -40,7 +40,7 @@ async def register(message: aiogram.types.Message):
 
 @dp.message_handler(commands=['unregister'])
 async def unregister(message: aiogram.types.Message):
-    if database.is_user_registered(message):
+    if database.is_user_registered(message.chat.id):
         database.unregister_user(message.chat.id)
         response = 'Готово'
     else:

@@ -22,14 +22,10 @@ else:
     connection = sqlite3.connect(config.DB_FILENAME)
 
 
-def is_user_registered(message: aiogram.types.Message) -> bool:
+def is_user_registered(user_id: int) -> bool:
     user_registered_query_template = open('sql/is_user_registered_template.sql').read()
     cur = connection.cursor()
-
-    cur.execute(user_registered_query_template.format(
-        message.from_user.id
-    ))
-
+    cur.execute(user_registered_query_template.format(user_id))
     return cur.fetchone() is not None
 
 
