@@ -30,7 +30,7 @@ REGISTER_DATA_REGEXP = re.compile(r'^[А-аЯ-я]{2,20}\s[А-аЯ-я]{2,20}\s[А
 PRIVATE_CHAT_FILTER = ChatTypeFilter(chat_type=aiogram.types.ChatType.PRIVATE)
 
 
-@dp.message_handler(regexp=REGISTER_DATA_REGEXP, custom_filters=PRIVATE_CHAT_FILTER)
+@dp.message_handler(PRIVATE_CHAT_FILTER, regexp=REGISTER_DATA_REGEXP)
 async def register(message: aiogram.types.Message):
     if database.is_user_registered(message):
         response = 'Ты уже зарегистрирован(а)'
