@@ -34,7 +34,7 @@ async def register(message: aiogram.types.Message):
         response = 'Ты уже зарегистрирован(а)'
     else:
         database.register_user(message)
-        response = 'Успешно'
+        response = config.SUCCESS_RESPONSE
     await message.reply(response)
 
 
@@ -42,7 +42,7 @@ async def register(message: aiogram.types.Message):
 async def unregister(message: aiogram.types.Message):
     if database.is_user_registered(message.chat.id):
         database.unregister_user(message.chat.id)
-        response = 'Готово'
+        response = config.SUCCESS_RESPONSE
     else:
         response = 'Ты итак не зарегистрирован(а)'
     await message.reply(response)
