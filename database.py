@@ -50,3 +50,10 @@ def get_user_data(user_id: int) -> UserData:
     return UserData(
         *cur.fetchone()
     )
+
+
+def unregister_user(user_id: int) -> None:
+    connection.cursor().execute(
+        open('sql/unregister_user_template.sql').read().format(user_id)
+    )
+    connection.commit()

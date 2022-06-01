@@ -38,5 +38,15 @@ async def register(message: aiogram.types.Message):
     await message.reply(response)
 
 
+@dp.message_handler(commands=['unregister'])
+async def unregister(message: aiogram.types.Message):
+    if database.is_user_registered(message):
+        database.unregister_user(message.chat.id)
+        response = 'Готово'
+    else:
+        response = 'Ты итак не зарегистрирован(а)'
+    await message.reply(response)
+
+
 if __name__ == '__main__':
     aiogram.executor.start_polling(dp)
