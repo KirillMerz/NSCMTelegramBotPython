@@ -1,5 +1,6 @@
-venv
-__pycache__
-.idea
+venv/
+__pycache__/
+.idea/
+logs/
 .env
 NCMSTracker.sqlite3
