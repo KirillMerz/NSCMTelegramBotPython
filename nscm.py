@@ -12,6 +12,9 @@ def get_results(user_data: UserData) -> str:
         'DocNumber': user_data.DocNumber
     })
 
+    if 'не найдены'.encode('UTF-8') in r.content:
+        return 'Учетные данные были введены неверно, результаты не найдены'
+
     response = ''
     trs = BeautifulSoup(r.content, 'html.parser').find('tbody').find_all('tr')
     for tr in trs:
