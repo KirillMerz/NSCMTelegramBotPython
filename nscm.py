@@ -10,7 +10,7 @@ def get_results(user_data: UserData) -> str:
         'Name': user_data.Name,
         'SecondName': user_data.SecondName,
         'DocNumber': user_data.DocNumber
-    })
+    }, timeout=None)
 
     if 'не найдены'.encode('UTF-8') in r.content:
         return 'Учетные данные были введены неверно, результаты не найдены'
