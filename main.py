@@ -23,7 +23,7 @@ async def check_results(message: aiogram.types.Message):
         response = 'Для регистрации напиши мне в личку'
     else:
         user_data = database.get_user_data(message.from_user.id)
-        response = nscm.get_results(user_data)
+        response = await nscm.get_results(user_data)
     await message.reply(response)
     logger.info(f'{message.from_user.id}: check()')
 
